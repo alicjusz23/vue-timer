@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="small-container">
-        <h2>Do końca</h2>
+        <h2>Timer</h2>
         <minutnik></minutnik>
     </div>
 </template>
@@ -16,5 +16,8 @@ export default {
 }
 </script>
 <style>
+    h2 {
+        text-align: center;
+    }
 
 </style>

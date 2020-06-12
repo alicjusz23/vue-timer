@@ -87,7 +87,7 @@ export default {
             chosen: {
                 chosenHour: "00",
                 chosenMin: "00",
-                chosenSec: "10"
+                chosenSec: "04"
             },
             //integer
             current: {
@@ -130,15 +130,20 @@ export default {
             this.working = true
             this.pausing = false
             var curDate = new Date()
-            curDate.setSeconds(curDate.getSeconds() + this.curTime + this.chosenTime)
+            curDate.setSeconds(curDate.getSeconds() + this.curTime + (this.more ? this.chosenTime : 0))
             this.interval = setInterval(() => {
                 this.count(curDate);
+                //this.chosenTime--
                 //when the time counter is finished
                 if(this.curTime==0){
-                    this.serie.count--
+                    if(this.more)
+                        this.serie.count--
+                    else   
+                        this.working=false
                     clearInterval(this.interval)
-                    this.curTime = 0
-                    this.audio.single.play()
+                    this.curTime = this.chosenTime = 0
+                    if((this.more && this.serie.count>0) || !this.more)
+                        this.audio.single.play()
                 }
             },1000);        
             //this.chosenTime = 0
@@ -146,7 +151,7 @@ export default {
         startMore(){
             var i=0
             while(i<this.serie.count){ 
-                setTimeout(() => this.start(), 15000*i);
+                setTimeout(() => this.start(), 8000*i);
                 i++
             }
         },
@@ -259,7 +264,8 @@ export default {
 <style scoped>
     @font-face {
         font-family: "digital-font";
-        src: url("../assets/digital-font/digital-7.ttf");
+        /* src: url("../assets/digital-font/digital-7.ttf"); */
+        src: url("../assets/digital/DS-DIGI.TTF");
     }
     div {
         text-align: center;
